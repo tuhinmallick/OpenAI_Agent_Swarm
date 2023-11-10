@@ -37,7 +37,9 @@ def talk_to_tool_creator(assistant_details):
     try:
         os.makedirs('assistants', exist_ok=True)
         with open('assistants/tool_creator.json') as f:
-            create_new = input(f'Assistant details found in tool_creator.json. Create a new assistant? [y/N]')
+            create_new = input(
+                'Assistant details found in tool_creator.json. Create a new assistant? [y/N]'
+            )
             if create_new == 'y':
                 raise Exception("User wants a new assistant")
             assistant_from_json = json.load(f)
@@ -53,7 +55,7 @@ def talk_to_tool_creator(assistant_details):
     for func in functions:
         # define the function in this execution environment
         exec(functions[func], globals())
-    
+
         # add the function to the assistant details
         functions.update({func: eval(func)})
 

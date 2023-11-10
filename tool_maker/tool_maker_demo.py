@@ -95,11 +95,11 @@ def schema_from_response(response):
 
 def get_assistant():
     """Retrieve or create an assistant for testing this functionality"""
-    if not assistant_package["name"] in [
+    if assistant_package["name"] not in [
         assistant.name for assistant in client.beta.assistants.list()
     ]:
         tools = [tool_from_function_schema(request_function_tool)]
-        assistant = client.beta.assistants.create(
+        return client.beta.assistants.create(
             model=assistant_package["model"],
             description=assistant_package["description"],
             instructions=assistant_package["instructions"],
@@ -110,10 +110,9 @@ def get_assistant():
         assistant_dict = {
             assistant.name: assistant.id for assistant in client.beta.assistants.list()
         }
-        assistant = client.beta.assistants.retrieve(
+        return client.beta.assistants.retrieve(
             assistant_id=assistant_dict[assistant_package["name"]]
         )
-    return assistant
 
 
 def run_response(run, assistant, thread):
